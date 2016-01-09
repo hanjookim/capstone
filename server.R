@@ -14,10 +14,6 @@ df_unigram<-read.csv("C:/My Documents/Company Work/LA County/Capstone/uni.csv")
 df_bigram<-read.csv("C:/My Documents/Company Work/LA County/Capstone/bi.csv") 
 df_trigram<-read.csv("C:/My Documents/Company Work/LA County/Capstone/tri.csv") 
 df_quagram<-read.csv("C:/My Documents/Company Work/LA County/Capstone/qua.csv") 
-#df_unigram<-readRDS(file='C:/Users/stephanie song/Desktop/final/en_US/data/uni.RData') 
-#df_bigram<-readRDS(file='C:/Users/stephanie song/Desktop/final/en_US/data/bi.RData') 
-#df_trigram<-readRDS(file='C:/Users/stephanie song/Desktop/final/en_US/data/tri.RData') 
-#df_quagram<-readRDS(file='C:/Users/stephanie song/Desktop/final/en_US/data/qua.RData') 
 
 # add prediction function : (bigram, trigram, and quagram) 
 source("C:/My Documents/Company Work/LA County/Capstone/model_wordcloud.R") 
@@ -36,17 +32,9 @@ predict_qua(input$text)
 shinyServer(function(input, output,session) { 
 radiobutton<-reactive({input$radiobutton}) 
 inputText<-reactive({input$text}) 
-#terms<-reactive({ 
-#isolate({ 
-#withProgress({ 
-#setProgress(message="Processing corpus...") 
-#}) 
-#}) 
-#}) 
 output$textout<-renderTable({ 
 predictions<-nextword(radiobutton(),inputText,input) 
 df<-data.frame(predictions) 
-#pred<-paste0("TOP #1", " prediction is : ", df[1,1], sep="", collapse="") 
 msg<-NULL 
 for (i in 1:nrow(df)) { 
 prediction<-paste0("TOP #", i, " prediction is: ", df[i,1], sep="", collapse="") 
@@ -66,18 +54,4 @@ Sys.sleep(0.5)
 }) 
 incProgress(0.5) 
 }) 
-#lapply(1:nrow(df), function(i) { 
-#output[[paste0('b', i)]] <- renderUI({ 
-#strong(paste0('Top #', i, ' ',  'is:', ' ' , df[i,1])) 
-#}) 
-#}) 
-#wordcloud_rep <- repeatable(wordcloud) 
-#output$wordcloud <- renderPlot({ 
-#word<-nextword(radiobutton(),inputText,input) 
-#df<-data.frame(word) 
-#df$order<-c(nrow(df):1) 
-#tb<-table(df$string) 
-#d<-data.frame(word=df$word, freq=df$order) 
-#wordcloud_rep(d$word, d$freq, max.words=30,scale=c(4,0.2),colors=brewer.pal(5,"Set1")) 
-#}) 
 })
